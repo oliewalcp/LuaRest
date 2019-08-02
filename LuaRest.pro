@@ -25,14 +25,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++17
 
 SOURCES += \
+        View/CodeSpace.cpp \
+        View/ProjectTreeSpace.cpp \
         main.cpp \
-        MainWindow.cpp
+        View/MainWindow.cpp
 
 HEADERS += \
-        MainWindow.h
+        View/MainWindow.h \
+        View/CodeSpace.h \
+        View/ProjectTreeSpace.h
 
 FORMS += \
-        MainWindow.ui
+        View/UI/ProjectTreeSpace.ui \
+        View/UI/CodeSpace.ui \
+        View/UI/MainWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
