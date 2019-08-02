@@ -7,9 +7,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     _M_CodeSpaceWidget = new CodeSpace(this);
-    ui->CodeContentArea->addWidget(_M_CodeSpaceWidget);
     _M_ProjectTreeSpaceWidget = new ProjectTreeSpace(this);
+    ui->CodeContentArea->addWidget(_M_CodeSpaceWidget);
     ui->CodeContentArea->addWidget(_M_ProjectTreeSpaceWidget);
+    ui->ProgressBar->hide();
+    ui->Text->hide();
+
+    connect(_M_ProjectTreeSpaceWidget, SIGNAL(select_directory_signal(std::shared_ptr<QString>)),
+            this, SLOT(select_directory_slot(std::shared_ptr<QString>)));
 }
 
 MainWindow::~MainWindow()
@@ -17,9 +22,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::resizeEvent(QResizeEvent *event)
+void MainWindow::select_directory_slot(std::shared_ptr<QString> dir)
 {
-    Q_UNUSED(event);
-    QRect cs_rect = _M_CodeSpaceWidget->geometry();
-    _M_CodeSpaceWidget->setGeometry(cs_rect.x(), cs_rect.y(), width() - _M_ProjectTreeSpaceWidget->width(), height() - _M_ProjectTreeSpaceWidget->height());
+    // 联系解析器
+    dir.reset();
 }
