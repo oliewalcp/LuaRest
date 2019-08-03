@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _M_CodeSpaceWidget = new CodeSpace(this);
     _M_ProjectTreeSpaceWidget = new ProjectTreeSpace(this);
     ui->CodeContentArea->addWidget(_M_CodeSpaceWidget);
-    ui->CodeContentArea->addWidget(_M_ProjectTreeSpaceWidget);
+    ui->ProjectTreeContent->addWidget(_M_ProjectTreeSpaceWidget);
     ui->ProgressBar->hide();
     ui->Text->hide();
 

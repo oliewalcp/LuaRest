@@ -25,12 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++17 console
 
 SOURCES += \
+        AssistLogic/AssistThreadLogic.cpp \
         View/CodeSpace.cpp \
         View/ProjectTreeSpace.cpp \
         main.cpp \
         View/MainWindow.cpp
 
 HEADERS += \
+        AssistLogic/AssistThreadLogic.h \
+        AssistLogic/ExecuteThread.h \
         View/MainWindow.h \
         View/CodeSpace.h \
         View/ProjectTreeSpace.h
@@ -40,10 +43,5 @@ FORMS += \
         View/UI/CodeSpace.ui \
         View/UI/MainWindow.ui
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
 RESOURCES += \
-    Icon.qrc
+    Resource.qrc
