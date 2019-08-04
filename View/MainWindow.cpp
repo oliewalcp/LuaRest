@@ -13,8 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ProgressBar->hide();
     ui->Text->hide();
 
-    connect(_M_ProjectTreeSpaceWidget, SIGNAL(select_directory_signal(std::shared_ptr<QString>)),
-            this, SLOT(select_directory_slot(std::shared_ptr<QString>)));
 }
 
 MainWindow::~MainWindow()

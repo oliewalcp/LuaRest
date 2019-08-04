@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <memory>
-#include <QStandardItem>
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class ProjectTreeSpace;
@@ -19,14 +19,10 @@ public:
 
 private slots:
     void on_OpenDirButton_clicked(); // 选择文件夹按钮点击事件
-    void add_tree_node_slot(const QString *name, unsigned long long pos, bool is_dir);
+    void add_tree_node_slot(QString *name, unsigned int flag);
 
 private:
-    typedef std::map<unsigned long long, QStandardItem*> TreeItemMap;
-
     Ui::ProjectTreeSpace *ui;
-    QStandardItemModel *_M_model;
-    TreeItemMap *_M_item_map;
 
     void clear_tree();
 

@@ -1,10 +1,10 @@
 #ifndef ASSISTTHREADLOGIC_H
 #define ASSISTTHREADLOGIC_H
 
-#include "ExecuteThread.h"
 #include <atomic>
 #include <memory>
 #include <QString>
+#include <QObject>
 
 struct TreeItemPosition
 {
@@ -37,8 +37,7 @@ class AssistThreadLogic : public QObject
 {
     Q_OBJECT
 private:
-    ExecuteThread *_M_thread;
-    std::atomic<bool> _M_working;
+    volatile bool _M_working;
 
     static AssistThreadLogic *_S_assist_logic;
 
@@ -46,12 +45,14 @@ private:
 public:
     static const AssistThreadLogic* instance() { return _S_assist_logic; }
 
+    bool is_working() { return _M_working; }
+
 private:
     void load_directory(const QString &dir);
 public slots:
     void load_directory_tree_slot(std::shared_ptr<QString> ptr);
 signals:
-    void add_tree_node_signal(const QString *, unsigned long long, bool);
+    void add_tree_node_signal(QString *, unsigned int);
 
 };
 
