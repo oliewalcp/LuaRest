@@ -18,7 +18,6 @@ public:
     ~MainWindow();
 
 public slots:
-    void select_directory_slot(std::shared_ptr<QString> dir);
 
 private:
     Ui::MainWindow *ui;

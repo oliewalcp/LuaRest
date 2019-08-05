@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <memory>
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class ProjectTreeSpace;
@@ -17,16 +18,16 @@ public:
     ~ProjectTreeSpace();
 
 private slots:
-    void on_OpenDirButton_clicked();
+    void on_OpenDirButton_clicked(); // 选择文件夹按钮点击事件
+    void add_tree_node_slot(QString *name, unsigned int flag);
 
 private:
     Ui::ProjectTreeSpace *ui;
 
-    void load_directory(std::shared_ptr<QString> dir);
     void clear_tree();
 
 signals:
-    void select_directory_signal(std::shared_ptr<QString>);
+    void load_directory_tree_signal(std::shared_ptr<QString>);
 };
 
 #endif // PROJECTTREESPACE_H

@@ -25,12 +25,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++17 console
 
 SOURCES += \
+        AssistLogic/AssistThreadLogic.cpp \
+        Data/DirectoryData.cpp \
+        Data/ProjectTreeData.cpp \
         View/CodeSpace.cpp \
         View/ProjectTreeSpace.cpp \
         main.cpp \
         View/MainWindow.cpp
 
 HEADERS += \
+        AssistLogic/AssistThreadLogic.h \
+        AssistLogic/ExecuteThread.h \
+        Data/DirectoryData.h \
+        Data/ProjectTreeData.h \
         View/MainWindow.h \
         View/CodeSpace.h \
         View/ProjectTreeSpace.h
@@ -41,4 +48,4 @@ FORMS += \
         View/UI/MainWindow.ui
 
 RESOURCES += \
-    Icon.qrc
+    Resource.qrc
