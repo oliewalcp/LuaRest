@@ -27,13 +27,16 @@ QTreeWidgetItem *ProjectTreeData::item(QString &name, unsigned int flag)
 {
     return item(new ItemDataType(&name, flag));
 }
-
+/* 获取控件
+ * param[data]:结点数据 need delete, reset
+ */
 QTreeWidgetItem *ProjectTreeData::item(ItemDataType *data)
 {
     QTreeWidgetItem *result = nullptr;
     auto it = _M_tree_node->find(data);
     if(it != _M_tree_node->end()) result = it->second;
     data->reset();
+    delete data;
     return result;
 }
 
@@ -55,6 +58,7 @@ void ProjectTreeData::set_parent(QString &name, int level, bool is_dir, QTreeWid
     if(it != _M_tree_node->end())
     {
         it->first->set_parent(parent);
+        parent->addChild(it->second);
     }
     data->reset();
     delete data;
@@ -70,23 +74,30 @@ void ProjectTreeData::set_item(QString *name, int level, bool is_dir, QTreeWidge
 {
     ItemDataType *data = new ItemDataType(name, level, is_dir, parent);
     auto it = _M_tree_node->find(data);
+    // 如果已存在结点
     if(it != _M_tree_node->end())
     {
         delete data;
         if(it->second != nullptr)
+        {
             delete it->second;
+        }
         it->first->set_parent(parent);
+        data = it->first;
         it->second = item;
-        _M_item_data->insert(std::pair(it->second, it->first));
     }
     else
     {
         _M_tree_node->insert(std::pair(data, item));
-        _M_item_data->insert(std::pair(item, data));
     }
-    if(parent != nullptr && item != nullptr)
+    // 如果有新的结点控件，则插入到容器
+    if(item != nullptr)
     {
-        parent->addChild(item);
+        _M_item_data->insert(std::pair(item, data));
+        if(parent != nullptr)
+        {
+            parent->addChild(item);
+        }
     }
 }
 

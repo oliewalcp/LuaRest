@@ -19,9 +19,3 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-void MainWindow::select_directory_slot(std::shared_ptr<QString> dir)
-{
-    // 联系解析器
-    dir.reset();
-}
