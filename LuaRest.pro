@@ -28,6 +28,7 @@ SOURCES += \
         AssistLogic/AssistThreadLogic.cpp \
         Data/DirectoryData.cpp \
         Data/ProjectTreeData.cpp \
+        ParserMachine/Parser.cpp \
         View/CodeSpace.cpp \
         View/ProjectTreeSpace.cpp \
         main.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
         AssistLogic/ExecuteThread.h \
         Data/DirectoryData.h \
         Data/ProjectTreeData.h \
+        ParserMachine/Parser.h \
         View/MainWindow.h \
         View/CodeSpace.h \
         View/ProjectTreeSpace.h

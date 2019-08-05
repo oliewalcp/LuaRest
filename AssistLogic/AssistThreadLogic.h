@@ -48,7 +48,7 @@ public:
     bool is_working() { return _M_working; }
 
 private:
-    void load_directory(const QString &dir);
+    void load_directory(const QString &dir, int level = 0);
 public slots:
     void load_directory_tree_slot(std::shared_ptr<QString> ptr);
 signals:

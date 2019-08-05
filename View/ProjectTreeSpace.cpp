@@ -4,6 +4,7 @@
 #include "Data/ProjectTreeData.h"
 #include <QFileDialog>
 #include <QFile>
+#include <QDebug>
 
 ProjectTreeSpace::ProjectTreeSpace(QWidget *parent) :
     QWidget(parent),
@@ -11,6 +12,8 @@ ProjectTreeSpace::ProjectTreeSpace(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->ProjectTree->hide();
+
+    qRegisterMetaType<std::shared_ptr<QString>>("std::shared_ptr<QString>");
 
     const AssistThreadLogic *logic = AssistThreadLogic::instance();
     connect(this, SIGNAL(load_directory_tree_signal(std::shared_ptr<QString>)),
@@ -36,14 +39,16 @@ void ProjectTreeSpace::on_OpenDirButton_clicked()
     select.reset();
 }
 /* 添加工程树结点
- * param[name]:结点名称， need delete
+ * param[name]:结点名称
  * param[pos]:结点位置
  * param[is_dir]:是否文件夹
  */
 void ProjectTreeSpace::add_tree_node_slot(QString *name, unsigned int flag)
 {
+    qDebug() << tr("新结点：") << *name;
     QTreeWidgetItem *item = ProjectTreeData::instance()->item(*name, flag);
     QTreeWidgetItem *parent = ProjectTreeData::instance()->parent(item);
+    // 如果没有父结点，证明是根结点
     if(parent == nullptr)
         ui->ProjectTree->addTopLevelItem(item);
     delete name;

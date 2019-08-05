@@ -53,7 +53,8 @@ public:
         delete _M_data;
         _M_data = nullptr;
     }
-
+    unsigned int flag()
+    { return std::get<1>(*_M_data).Total; }
     QString& name()
     { return *std::get<0>(*_M_data); }
     bool is_dir()
