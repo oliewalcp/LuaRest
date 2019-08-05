@@ -45,16 +45,22 @@ void ProjectTreeSpace::on_OpenDirButton_clicked()
  */
 void ProjectTreeSpace::add_tree_node_slot(QString *name, unsigned int flag)
 {
-    qDebug() << tr("新结点：") << *name;
+    qDebug() << tr("new node name: ") << *name;
     QTreeWidgetItem *item = ProjectTreeData::instance()->item(*name, flag);
+    qDebug() << tr("get item success");
     QTreeWidgetItem *parent = ProjectTreeData::instance()->parent(item);
+    qDebug() << tr("get parent success");
     // 如果没有父结点，证明是根结点
     if(parent == nullptr)
+    {
         ui->ProjectTree->addTopLevelItem(item);
+        qDebug() << tr("total child size: ") << ui->ProjectTree->children().size();
+    }
     delete name;
 }
 
 void ProjectTreeSpace::clear_tree()
 {
+    ui->ProjectTree->clear();
     ProjectTreeData::instance()->clear();
 }

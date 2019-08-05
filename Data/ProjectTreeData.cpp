@@ -1,4 +1,5 @@
 #include "ProjectTreeData.h"
+#include "AssistLogic/ThreadMutex.h"
 
 ProjectTreeData *ProjectTreeData::_S_project_tree_data = new ProjectTreeData();
 
@@ -32,9 +33,14 @@ QTreeWidgetItem *ProjectTreeData::item(QString &name, unsigned int flag)
  */
 QTreeWidgetItem *ProjectTreeData::item(ItemDataType *data)
 {
+    std::unique_lock<std::mutex> *lock = ThreadMutex::instance()->lock();
     QTreeWidgetItem *result = nullptr;
     auto it = _M_tree_node->find(data);
-    if(it != _M_tree_node->end()) result = it->second;
+    if(it != _M_tree_node->end())
+    {
+        result = it->second;
+    }
+    ThreadMutex::instance()->unlock(lock);
     data->reset();
     delete data;
     return result;
@@ -42,13 +48,16 @@ QTreeWidgetItem *ProjectTreeData::item(ItemDataType *data)
 
 QTreeWidgetItem *ProjectTreeData::parent(QTreeWidgetItem *child)
 {
+    QTreeWidgetItem *result = nullptr;
+    std::unique_lock<std::mutex> *lock = ThreadMutex::instance()->lock();
     auto it = _M_item_data->find(child);
     if(it != _M_item_data->end())
     {
         auto data = it->second;
-        return data->parent();
+        result = data->parent();
     }
-    return nullptr;
+    ThreadMutex::instance()->unlock(lock);
+    return result;
 }
 
 void ProjectTreeData::set_parent(QString &name, int level, bool is_dir, QTreeWidgetItem *parent)
@@ -73,6 +82,7 @@ void ProjectTreeData::set_parent(QString &name, int level, bool is_dir, QTreeWid
 void ProjectTreeData::set_item(QString *name, int level, bool is_dir, QTreeWidgetItem *item, QTreeWidgetItem *parent)
 {
     ItemDataType *data = new ItemDataType(name, level, is_dir, parent);
+    std::unique_lock<std::mutex> *lock = ThreadMutex::instance()->lock();
     auto it = _M_tree_node->find(data);
     // 如果已存在结点
     if(it != _M_tree_node->end())
@@ -99,6 +109,7 @@ void ProjectTreeData::set_item(QString *name, int level, bool is_dir, QTreeWidge
             parent->addChild(item);
         }
     }
+    ThreadMutex::instance()->unlock(lock);
 }
 
 void ProjectTreeData::add_item(QString *name, int level, bool is_dir, QTreeWidgetItem *parent)

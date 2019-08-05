@@ -12,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ProjectTreeContent->addWidget(_M_ProjectTreeSpaceWidget);
     ui->ProgressBar->hide();
     ui->Text->hide();
-
 }
 
 MainWindow::~MainWindow()
