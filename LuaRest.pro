@@ -37,6 +37,7 @@ SOURCES += \
 HEADERS += \
         AssistLogic/AssistThreadLogic.h \
         AssistLogic/ExecuteThread.h \
+        AssistLogic/ThreadMutex.h \
         Data/DirectoryData.h \
         Data/ProjectTreeData.h \
         ParserMachine/Parser.h \

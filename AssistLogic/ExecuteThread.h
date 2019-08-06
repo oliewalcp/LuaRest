@@ -3,7 +3,7 @@
 
 #include <QThread>
 
-class ExecuteThread final : public QThread
+class ExecuteThread final : QThread
 {
     Q_OBJECT
 private:
@@ -13,10 +13,12 @@ private:
     ExecuteThread()
     { start(); }
 public:
-    static ExecuteThread* assist_thread() { return _S_assist_thread; }
-    static ExecuteThread* parser_thread() { return _S_parser_thread; }
-
-    virtual void run() override { exec(); }
+    static QThread* assist_thread()
+    { return _S_assist_thread; }
+    static QThread* parser_thread()
+    { return _S_parser_thread; }
+protected:
+    void run() { exec(); }
 };
 
 #endif // EXECUTETHREAD_H

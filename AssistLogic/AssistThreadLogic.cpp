@@ -3,12 +3,14 @@
 #include "Data/ProjectTreeData.h"
 #include "ExecuteThread.h"
 #include "ParserMachine/Parser.h"
+#include "ThreadMutex.h"
 #include <QDir>
 #include <QFileInfo>
 #include <stack>
 
 ExecuteThread *ExecuteThread::_S_assist_thread = new ExecuteThread();
 ExecuteThread *ExecuteThread::_S_parser_thread = new ExecuteThread();
+ThreadMutex *ThreadMutex::_S_thread_mutex = new ThreadMutex();
 
 AssistThreadLogic *AssistThreadLogic::_S_assist_logic = new AssistThreadLogic();
 
