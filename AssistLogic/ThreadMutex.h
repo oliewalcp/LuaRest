@@ -10,7 +10,6 @@ private:
     std::condition_variable _M_cv;
     std::mutex _M_mutex;
 
-    typedef std::unique_lock<std::mutex> UniqueLock;
 
     static ThreadMutex *_S_thread_mutex;
 
@@ -19,7 +18,9 @@ public:
     static ThreadMutex* instance()
     { return _S_thread_mutex; }
 
-    UniqueLock* lock()
+    typedef std::unique_lock<std::mutex> UniqueLock;
+
+    [[nodiscard]] UniqueLock* lock()
     {
         UniqueLock *unique_lock = new UniqueLock(_M_mutex);
         _M_cv.wait(*unique_lock);
@@ -29,6 +30,7 @@ public:
     {
         unique_lock->unlock();
         _M_cv.notify_all();
+        delete unique_lock;
     }
 };
 

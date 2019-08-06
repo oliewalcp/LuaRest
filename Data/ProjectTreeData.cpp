@@ -33,7 +33,7 @@ QTreeWidgetItem *ProjectTreeData::item(QString &name, unsigned int flag)
  */
 QTreeWidgetItem *ProjectTreeData::item(ItemDataType *data)
 {
-    std::unique_lock<std::mutex> *lock = ThreadMutex::instance()->lock();
+    auto lock = ThreadMutex::instance()->lock();
     QTreeWidgetItem *result = nullptr;
     auto it = _M_tree_node->find(data);
     if(it != _M_tree_node->end())
@@ -49,7 +49,7 @@ QTreeWidgetItem *ProjectTreeData::item(ItemDataType *data)
 QTreeWidgetItem *ProjectTreeData::parent(QTreeWidgetItem *child)
 {
     QTreeWidgetItem *result = nullptr;
-    std::unique_lock<std::mutex> *lock = ThreadMutex::instance()->lock();
+    auto lock = ThreadMutex::instance()->lock();
     auto it = _M_item_data->find(child);
     if(it != _M_item_data->end())
     {
@@ -82,7 +82,7 @@ void ProjectTreeData::set_parent(QString &name, int level, bool is_dir, QTreeWid
 void ProjectTreeData::set_item(QString *name, int level, bool is_dir, QTreeWidgetItem *item, QTreeWidgetItem *parent)
 {
     ItemDataType *data = new ItemDataType(name, level, is_dir, parent);
-    std::unique_lock<std::mutex> *lock = ThreadMutex::instance()->lock();
+    auto lock = ThreadMutex::instance()->lock();
     auto it = _M_tree_node->find(data);
     // 如果已存在结点
     if(it != _M_tree_node->end())
