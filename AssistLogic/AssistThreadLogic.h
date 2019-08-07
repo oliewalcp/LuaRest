@@ -5,7 +5,7 @@
 #include <QString>
 #include <QObject>
 
-class AssistThreadLogic : public QObject
+class AssistThreadLogic final : public QObject
 {
     Q_OBJECT
 private:

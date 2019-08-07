@@ -1,5 +1,6 @@
 #include "ProjectTreeData.h"
 #include "AssistLogic/ThreadMutex.h"
+#include <QDebug>
 
 ProjectTreeData *ProjectTreeData::_S_project_tree_data = new ProjectTreeData();
 
@@ -82,7 +83,9 @@ void ProjectTreeData::set_parent(QString &name, int level, bool is_dir, QTreeWid
 void ProjectTreeData::set_item(QString *name, int level, bool is_dir, QTreeWidgetItem *item, QTreeWidgetItem *parent)
 {
     ItemDataType *data = new ItemDataType(name, level, is_dir, parent);
+    qDebug() << *name;
     auto lock = ThreadMutex::instance()->lock();
+    qDebug() << "okokok";
     auto it = _M_tree_node->find(data);
     // 如果已存在结点
     if(it != _M_tree_node->end())
