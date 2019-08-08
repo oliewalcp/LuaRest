@@ -3,8 +3,9 @@
 #include "Actor.h"
 #include <fstream>
 #include <set>
+#include <QDebug>
 
-Parser *Parser::_S_parser = new Parser();
+Parser *Parser::_S_parser = nullptr;
 
 typedef std::set<std::string> KeywordContainer;
 
@@ -24,6 +25,13 @@ Parser::~Parser()
     {
         delete KeywordSet;
     }
+}
+
+Parser *Parser::instance()
+{
+    if(_S_parser == nullptr)
+        _S_parser = new Parser();
+    return _S_parser;
 }
 /* 解析文件
  * param[filename]:文件名 need delete

@@ -15,8 +15,7 @@ private:
     bool _F_is_keyword(const std::string &word);
 public:
     ~Parser();
-    static Parser* instance()
-    { return _S_parser; }
+    static Parser* instance();
 
     bool is_keyword(const std::string &word)
     { return _F_is_keyword(word); }

@@ -15,7 +15,7 @@ private:
 
     AssistThreadLogic();
 public:
-    static const AssistThreadLogic* instance() { return _S_assist_logic; }
+    static const AssistThreadLogic* instance();
 
     bool is_working() { return _M_working; }
 

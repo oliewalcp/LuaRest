@@ -14,7 +14,6 @@ ProjectTreeSpace::ProjectTreeSpace(QWidget *parent) :
     ui->ProjectTree->hide();
 
     qRegisterMetaType<std::shared_ptr<QString>>("std::shared_ptr<QString>");
-
     const AssistThreadLogic *logic = AssistThreadLogic::instance();
     connect(this, SIGNAL(load_directory_tree_signal(std::shared_ptr<QString>)),
             logic, SLOT(load_directory_tree_slot(std::shared_ptr<QString>)));

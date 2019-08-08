@@ -2,18 +2,24 @@
 #include "Data/DirectoryData.h"
 #include "Data/ProjectTreeData.h"
 #include "ParserMachine/Parser.h"
-#include "ThreadMutex.h"
 #include "ExecuteThread.h"
 #include <QDir>
 #include <QFileInfo>
 #include <stack>
 #include <QDebug>
 
-AssistThreadLogic *AssistThreadLogic::_S_assist_logic = new AssistThreadLogic();
+AssistThreadLogic *AssistThreadLogic::_S_assist_logic = nullptr;
 
 AssistThreadLogic::AssistThreadLogic() : _M_working(false)
 {
     moveToThread(ExecuteThread::assist_thread());
+}
+
+const AssistThreadLogic *AssistThreadLogic::instance()
+{
+    if(_S_assist_logic == nullptr)
+        _S_assist_logic = new AssistThreadLogic();
+    return _S_assist_logic;
 }
 
 void AssistThreadLogic::load_directory_tree_slot(std::shared_ptr<QString> ptr)
@@ -46,6 +52,7 @@ void AssistThreadLogic::load_directory(const QString &dir, int level)
         }
         ItemDataType *dt = new ItemDataType(dire_name, level, true, parent);
         direc.push(dt);
+        qDebug() << "ready send signal ";
         ProjectTreeData::instance()->add_item(dire_name, level + 1, true, parent);
         qDebug() << "send signal ";
         emit add_tree_node_signal(dire_name, dt->flag());
