@@ -34,7 +34,7 @@ QTreeWidgetItem *ProjectTreeData::item(QString &name, unsigned int flag)
  */
 QTreeWidgetItem *ProjectTreeData::item(ItemDataType *data)
 {
-    auto lock = ThreadMutex::instance()->lock();
+    auto lock = ThreadMutex::instance()->lock(false);
     QTreeWidgetItem *result = nullptr;
     auto it = _M_tree_node->find(data);
     if(it != _M_tree_node->end())
@@ -50,7 +50,7 @@ QTreeWidgetItem *ProjectTreeData::item(ItemDataType *data)
 QTreeWidgetItem *ProjectTreeData::parent(QTreeWidgetItem *child)
 {
     QTreeWidgetItem *result = nullptr;
-    auto lock = ThreadMutex::instance()->lock();
+    auto lock = ThreadMutex::instance()->lock(false);
     auto it = _M_item_data->find(child);
     if(it != _M_item_data->end())
     {
@@ -84,8 +84,7 @@ void ProjectTreeData::set_item(QString *name, int level, bool is_dir, QTreeWidge
 {
     ItemDataType *data = new ItemDataType(name, level, is_dir, parent);
     qDebug() << *name;
-    auto lock = ThreadMutex::instance()->lock();
-    qDebug() << "okokok";
+    auto lock = ThreadMutex::instance()->lock(true);
     auto it = _M_tree_node->find(data);
     // 如果已存在结点
     if(it != _M_tree_node->end())
@@ -113,6 +112,7 @@ void ProjectTreeData::set_item(QString *name, int level, bool is_dir, QTreeWidge
         }
     }
     ThreadMutex::instance()->unlock(lock);
+    qDebug() << "current size: " << _M_tree_node->size();
 }
 
 void ProjectTreeData::add_item(QString *name, int level, bool is_dir, QTreeWidgetItem *parent)
