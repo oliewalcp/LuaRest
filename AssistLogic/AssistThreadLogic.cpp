@@ -1,16 +1,13 @@
 #include "AssistThreadLogic.h"
 #include "Data/DirectoryData.h"
 #include "Data/ProjectTreeData.h"
-#include "ExecuteThread.h"
 #include "ParserMachine/Parser.h"
 #include "ThreadMutex.h"
+#include "ExecuteThread.h"
 #include <QDir>
 #include <QFileInfo>
 #include <stack>
-
-ExecuteThread *ExecuteThread::_S_assist_thread = new ExecuteThread();
-ExecuteThread *ExecuteThread::_S_parser_thread = new ExecuteThread();
-ThreadMutex *ThreadMutex::_S_thread_mutex = new ThreadMutex();
+#include <QDebug>
 
 AssistThreadLogic *AssistThreadLogic::_S_assist_logic = new AssistThreadLogic();
 
@@ -21,12 +18,14 @@ AssistThreadLogic::AssistThreadLogic() : _M_working(false)
 
 void AssistThreadLogic::load_directory_tree_slot(std::shared_ptr<QString> ptr)
 {
+    qDebug() << tr("start load ") << *ptr;
     DirectoryData::instance()->set_working_space(*ptr);
     load_directory(*ptr);
 }
 
 void AssistThreadLogic::load_directory(const QString &dir, int level)
 {
+    qDebug() << tr("load ") << dir;
     static std::stack<ItemDataType *> direc;
     QDir directory(dir);
     QStringList lua_files;
@@ -48,6 +47,7 @@ void AssistThreadLogic::load_directory(const QString &dir, int level)
         ItemDataType *dt = new ItemDataType(dire_name, level, true, parent);
         direc.push(dt);
         ProjectTreeData::instance()->add_item(dire_name, level + 1, true, parent);
+        qDebug() << "send signal ";
         emit add_tree_node_signal(dire_name, dt->flag());
         load_directory(std::forward<QString>(name), level + 1);
         direc.pop();

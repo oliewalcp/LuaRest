@@ -3,13 +3,13 @@
 
 #include <condition_variable>
 #include <mutex>
+#include <atomic>
 
 class ThreadMutex
 {
 private:
     std::condition_variable _M_cv;
     std::mutex _M_mutex;
-
 
     static ThreadMutex *_S_thread_mutex;
 
@@ -20,18 +20,8 @@ public:
 
     typedef std::unique_lock<std::mutex> UniqueLock;
 
-    [[nodiscard]] UniqueLock* lock()
-    {
-        UniqueLock *unique_lock = new UniqueLock(_M_mutex);
-        _M_cv.wait(*unique_lock);
-        return unique_lock;
-    }
-    void unlock(UniqueLock *unique_lock)
-    {
-        unique_lock->unlock();
-        _M_cv.notify_all();
-        delete unique_lock;
-    }
+    [[nodiscard]] UniqueLock* lock();
+    void unlock(UniqueLock *unique_lock);
 };
 
 #endif // THREADMUTEX_H

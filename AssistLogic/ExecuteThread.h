@@ -14,9 +14,17 @@ private:
     { start(); }
 public:
     static QThread* assist_thread()
-    { return _S_assist_thread; }
+    {
+        if(_S_assist_thread == nullptr)
+            _S_assist_thread = new ExecuteThread();
+        return _S_assist_thread;
+    }
     static QThread* parser_thread()
-    { return _S_parser_thread; }
+    {
+        if(_S_parser_thread == nullptr)
+            _S_parser_thread = new ExecuteThread();
+        return _S_parser_thread;
+    }
 protected:
     void run() { exec(); }
 };

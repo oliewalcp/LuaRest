@@ -26,8 +26,10 @@ CONFIG += c++17 console
 
 SOURCES += \
         AssistLogic/AssistThreadLogic.cpp \
+        AssistLogic/ThreadImplement.cpp \
         Data/DirectoryData.cpp \
         Data/ProjectTreeData.cpp \
+        ParserMachine/Actor.cpp \
         ParserMachine/Parser.cpp \
         View/CodeSpace.cpp \
         View/ProjectTreeSpace.cpp \
@@ -40,6 +42,7 @@ HEADERS += \
         AssistLogic/ThreadMutex.h \
         Data/DirectoryData.h \
         Data/ProjectTreeData.h \
+        ParserMachine/Actor.h \
         ParserMachine/Parser.h \
         View/MainWindow.h \
         View/CodeSpace.h \
