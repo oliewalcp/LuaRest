@@ -13,6 +13,7 @@ ProjectTreeSpace::ProjectTreeSpace(QWidget *parent) :
     ui->setupUi(this);
     ui->ProjectTree->hide();
 
+    qDebug() << tr("total child size: ") << ui->ProjectTree->children().size() - 7;
     qRegisterMetaType<std::shared_ptr<QString>>("std::shared_ptr<QString>");
     const AssistThreadLogic *logic = AssistThreadLogic::instance();
     connect(this, SIGNAL(load_directory_tree_signal(std::shared_ptr<QString>)),
@@ -38,7 +39,7 @@ void ProjectTreeSpace::on_OpenDirButton_clicked()
     select.reset();
 }
 /* 添加工程树结点
- * param[name]:结点名称
+ * param[name]:结点名称 need delete
  * param[pos]:结点位置
  * param[is_dir]:是否文件夹
  */
@@ -53,7 +54,7 @@ void ProjectTreeSpace::add_tree_node_slot(QString *name, unsigned int flag)
     if(parent == nullptr)
     {
         ui->ProjectTree->addTopLevelItem(item);
-        qDebug() << tr("total child size: ") << ui->ProjectTree->children().size();
+        qDebug() << tr("total child size: ") << ui->ProjectTree->children().size() - 7;
     }
     delete name;
 }
