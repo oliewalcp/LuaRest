@@ -1,6 +1,5 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
-#include "AssistLogic/ThreadMutex.h"
 #include <QTimer>
 #include <QDebug>
 
@@ -15,19 +14,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ProjectTreeContent->addWidget(_M_ProjectTreeSpaceWidget);
     ui->ProgressBar->hide();
     ui->Text->hide();
-    _M_notify_timer = new QTimer;
-    connect(_M_notify_timer, SIGNAL(timeout()), this, SLOT(timeout_slot()));
-    _M_notify_timer->setInterval(100);
-    _M_notify_timer->start();
 }
 
 MainWindow::~MainWindow()
 {
     delete _M_notify_timer;
     delete ui;
-}
-
-void MainWindow::timeout_slot()
-{
-    ThreadMutex::instance()->notify();
 }

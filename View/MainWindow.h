@@ -18,9 +18,6 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-public slots:
-    void timeout_slot();
-
 private:
     Ui::MainWindow *ui;
 

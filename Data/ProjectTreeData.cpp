@@ -83,7 +83,7 @@ void ProjectTreeData::set_parent(QString &name, int level, bool is_dir, QTreeWid
 void ProjectTreeData::set_item(QString *name, int level, bool is_dir, QTreeWidgetItem *item, QTreeWidgetItem *parent)
 {
     ItemDataType *data = new ItemDataType(name, level, is_dir, parent);
-    qDebug() << *name;
+    qDebug() << __FILE__ << ":" << __func__ << ":" << __LINE__ << "\n" << *name;
     auto lock = ThreadMutex::instance()->lock(WRITE);
     auto it = _M_tree_node->find(data);
     // 如果已存在结点
@@ -112,7 +112,7 @@ void ProjectTreeData::set_item(QString *name, int level, bool is_dir, QTreeWidge
         }
     }
     ThreadMutex::instance()->unlock(lock);
-    qDebug() << "current size: " << _M_tree_node->size();
+    qDebug() << __FILE__ << ":" << __func__ << ":" << __LINE__ << "\n" << "current size: " << _M_tree_node->size();
 }
 
 void ProjectTreeData::add_item(QString *name, int level, bool is_dir, QTreeWidgetItem *parent)
@@ -138,6 +138,7 @@ void ProjectTreeData::add_item(QString *name, int level, bool is_dir, QTreeWidge
 void ProjectTreeData::remove_element(QString &name, int level, bool is_dir)
 {
     ItemDataType *data = new ItemDataType(&name, level, is_dir);
+    auto lock = ThreadMutex::instance()->lock(WRITE);
     auto it = _M_tree_node->find(data);
     if(it->second != nullptr)
     {
@@ -146,6 +147,7 @@ void ProjectTreeData::remove_element(QString &name, int level, bool is_dir)
     }
     data->reset();
     delete data;
+    ThreadMutex::instance()->unlock(lock);
 }
 //释放空间
 void ProjectTreeData::clear()

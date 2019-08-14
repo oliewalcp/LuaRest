@@ -72,7 +72,7 @@ struct CompareStruct
     bool operator()(ItemDataType *tar, ItemDataType *src) const
     {
         bool temp = (tar->is_dir() == false) && (src->is_dir() == true);
-        return tar->level() < src->level() || tar->name() < src->name() || temp;
+        return (tar->level() < src->level()) || (tar->name() < src->name()) || temp;
     }
 };
 

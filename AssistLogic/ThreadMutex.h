@@ -6,9 +6,9 @@
 #include <atomic>
 
 enum Status : unsigned char {
+    NONE,
     WRITE,
-    READ,
-    NONE
+    READ
 };
 
 class ThreadMutex
@@ -20,7 +20,10 @@ private:
 
     static ThreadMutex *_S_thread_mutex;
 
-    ThreadMutex() { }
+    ThreadMutex()
+    {
+        _M_status = NONE;
+    }
 public:
     static ThreadMutex* instance()
     { return _S_thread_mutex; }
