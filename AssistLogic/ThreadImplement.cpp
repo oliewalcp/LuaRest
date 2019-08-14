@@ -25,21 +25,27 @@ QThread *ExecuteThread::assist_thread()
 
 ThreadMutex *ThreadMutex::_S_thread_mutex = new ThreadMutex();
 
-ThreadMutex::UniqueLock *ThreadMutex::lock(const bool write)
+ThreadMutex::UniqueLock *ThreadMutex::lock(const Status status)
 {
-    if(!write)
-        while(_M_writing);
-    _M_writing = write;
-    return nullptr;
-//    UniqueLock *unique_lock = new UniqueLock(_M_mutex);
-//    _M_cv.wait(*unique_lock);
-//    return unique_lock;
+    UniqueLock *unique_lock = new UniqueLock(_M_mutex);
+    while(status == WRITE && _M_status == READ)
+        _M_cv.wait(*unique_lock);
+    while(status == READ && _M_status == WRITE)
+        _M_cv.wait(*unique_lock);
+    _M_status = status;
+    return unique_lock;
 }
 
-void ThreadMutex::unlock(ThreadMutex::UniqueLock *unique_lock __attribute__((unused)))
+void ThreadMutex::unlock(ThreadMutex::UniqueLock *unique_lock)
 {
-    _M_writing = false;
-//    unique_lock->unlock();
-//    _M_cv.notify_all();
-//    delete unique_lock;
+    unique_lock->unlock();
+    _M_status = NONE;
+    notify();
+    delete unique_lock;
+}
+
+void ThreadMutex::notify()
+{
+    if(_M_status == NONE)
+        _M_cv.notify_all();
 }

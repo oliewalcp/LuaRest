@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 #include "CodeSpace.h"
 #include "ProjectTreeSpace.h"
 
@@ -18,10 +19,12 @@ public:
     ~MainWindow();
 
 public slots:
+    void timeout_slot();
 
 private:
     Ui::MainWindow *ui;
 
+    QTimer *_M_notify_timer;
     CodeSpace *_M_CodeSpaceWidget;
     ProjectTreeSpace *_M_ProjectTreeSpaceWidget;
 };
